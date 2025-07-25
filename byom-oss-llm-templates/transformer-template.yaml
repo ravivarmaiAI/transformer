@@ -33,7 +33,7 @@ spec:
     spec: |
       predictor:
         imagePullSecrets:
-        - name: sapaicoregenai
+        - name: coreai
         minReplicas: 1
         maxReplicas: 1
         containers:
