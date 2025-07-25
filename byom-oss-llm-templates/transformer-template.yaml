@@ -38,7 +38,7 @@ spec:
         maxReplicas: 1
         containers:
         - name: kserve-container
-          image: https://index.docker.io/ravivarmaiai/transformer:ai-core
+          image: index.docker.io/ravivarmaiai/transformer:ai-core
           ports:
             - containerPort: 8080
               protocol: TCP
