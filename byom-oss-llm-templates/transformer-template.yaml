@@ -18,9 +18,9 @@ spec:
         type: string # required for every parameters
         description: "Model Name to be used in SAP Generative AI Hub SDK. Ensure an identical value as alias parameter"
       - name: resourcePlan
-        type: "string"
-        default: "infer.s"
-        description: "Resource Plan of SAP AI Core. Supported: infer.s, infer.m, infer.l, train.l"
+        type: string
+        default: "starter" 
+        description: "Resource Plan for free-tier"
   template:
     apiVersion: "serving.kserve.io/v1beta1"
     metadata:
@@ -29,7 +29,7 @@ spec:
         autoscaling.knative.dev/target: 1
         autoscaling.knative.dev/targetBurstCapacity: 0
       labels: |
-        ai.sap.com/resourcePlan: "{{inputs.parameters.resourcePlan}}"
+        ai.sap.com/resourcePlan: "{{inputs.parameters.resourcePlan}}" 
     spec: |
       predictor:
         minReplicas: 1
