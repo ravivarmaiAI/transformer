@@ -14,7 +14,7 @@ spec:
   inputs:
     parameters:
       - name: modelName # placeholder name
-        default: "microsoft/deepseek-r1-distill-llama" 
+        default: "microsoft/Phi-3-vision-128k-instruct" 
         type: string # required for every parameters
         description: "Model Name to be used in SAP Generative AI Hub SDK. Ensure an identical value as alias parameter"
       - name: resourcePlan
