@@ -14,7 +14,7 @@ spec:
   inputs:
     parameters:
       - name: modelName # placeholder name
-        default: "microsoft/Phi-3-vision-128k-instruct" 
+        default: "falcon-rw1b" 
         type: string # required for every parameters
         description: "Model Name to be used in SAP Generative AI Hub SDK. Ensure an identical value as alias parameter"
       - name: resourcePlan
@@ -36,7 +36,7 @@ spec:
         maxReplicas: 1
         containers:
         - name: kserve-container
-          image: index.docker.io/ravivarmaiai/transformer:ai-core
+          image: index.docker.io/ravivarmaiai/falcon-rw1b:latest
           ports:
             - containerPort: 8080
               protocol: TCP
