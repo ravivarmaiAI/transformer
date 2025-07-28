@@ -9,12 +9,12 @@ metadata:
     executables.ai.sap.com/name: "transformer"
   labels:
     scenarios.ai.sap.com/id: "transformer"
-    ai.sap.com/version: "1.0.3"
+    ai.sap.com/version: "1.0.4"
 spec:
   inputs:
     parameters:
       - name: modelName # placeholder name
-        default: "microsoft/Phi-3-vision-128k-instruct" 
+        default: "ai/deepseek-r1-distill-llama" 
         type: string # required for every parameters
         description: "Model Name to be used in SAP Generative AI Hub SDK. Ensure an identical value as alias parameter"
       - name: resourcePlan
@@ -38,7 +38,7 @@ spec:
         maxReplicas: 1
         containers:
         - name: kserve-container
-          image: index.docker.io/ravivarmaiai/transformer:ai-core
+          image: index.docker.io/ai/deepseek-r1-distill-llama:8B-Q4_K_M
           ports:
             - containerPort: 8080
               protocol: TCP
