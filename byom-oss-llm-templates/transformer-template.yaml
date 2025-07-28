@@ -33,7 +33,7 @@ spec:
     spec: |
       predictor:
         imagePullSecrets:
-        - name: dckr_pat_7bAgkhy4GDG-F_Iow5juLJsueiw
+        - name: sapaicoregenai
         minReplicas: 1
         maxReplicas: 1
         containers:
