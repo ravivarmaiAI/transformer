@@ -9,7 +9,7 @@ metadata:
     executables.ai.sap.com/name: "transformer"
   labels:
     scenarios.ai.sap.com/id: "transformer"
-    ai.sap.com/version: "1.1.1"
+    ai.sap.com/version: "1.1.5"
 spec:
   inputs:
     parameters:
@@ -47,4 +47,7 @@ spec:
               && uvicorn server:app --host 0.0.0.0 --port 8080
           env:
             - name: MODEL_NAME
-              value: "{{inputs.parameters.modelName}}" 
+              value: "{{inputs.parameters.modelName}}"
+            - name: HF_HOME
+              value: "/tmp/hf-cache"
+              
