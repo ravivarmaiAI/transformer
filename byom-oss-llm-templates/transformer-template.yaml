@@ -11,13 +11,25 @@ metadata:
     scenarios.ai.sap.com/id: deepseek-coder
     ai.sap.com/version: "2.0"
 spec:
+  inputs:
+    parameters:
+      - name: modelName # placeholder name
+        default: "deepseek-coder" 
+        type: string # required for every parameters
+        description: "Model Name to be used in SAP Generative AI Hub SDK. Ensure an identical value as alias parameter"
+      - name: resourcePlan
+        type: string
+        default: "infer.s" 
+        description: "Resource Plan for free-tier"
   template:
-    apiVersion: serving.kserve.io/v1beta1
+    apiVersion: "serving.kserve.io/v1beta1"
     metadata:
-      annotations:
-        autoscaling.knative.dev/target: "1"
-      labels:
-        ai.sap.com/resourcePlan: infer.l  # Large plan for GPU
+      annotations: |
+        autoscaling.knative.dev/metric: concurrency
+        autoscaling.knative.dev/target: 1
+        autoscaling.knative.dev/targetBurstCapacity: 0
+      labels: |
+        ai.sap.com/resourcePlan: "{{inputs.parameters.resourcePlan}}" U
     spec:
       predictor:
         imagePullSecrets:
