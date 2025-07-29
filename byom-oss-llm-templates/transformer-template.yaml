@@ -1,53 +1,29 @@
 apiVersion: ai.sap.com/v1alpha1
 kind: ServingTemplate
 metadata:
-  name: transformer
+  name: deepseek-coder-template
   annotations:
-    scenarios.ai.sap.com/description: "Run a custom transformer server on SAP AI Core"
-    scenarios.ai.sap.com/name: "transformer"
-    executables.ai.sap.com/description: "Run a custom transformer server on SAP AI Core"
-    executables.ai.sap.com/name: "transformer"
+    scenarios.ai.sap.com/name: deepseek-coder
+    scenarios.ai.sap.com/description: DeepSeek Coder 1.3B Instruct Model
+    executables.ai.sap.com/name: deepseek-coder
+    executables.ai.sap.com/description: DeepSeek model FastAPI service
   labels:
-    scenarios.ai.sap.com/id: "transformer"
-    ai.sap.com/version: "1.1.8"
+    scenarios.ai.sap.com/id: deepseek-coder
+    ai.sap.com/version: "1.0"
 spec:
-  inputs:
-    parameters:
-      - name: modelName # placeholder name
-        default: "falcon-rw1b" 
-        type: string # required for every parameters
-        description: "Model Name to be used in SAP Generative AI Hub SDK. Ensure an identical value as alias parameter"
-      - name: resourcePlan
-        type: string
-        default: "infer.s" 
-        description: "Resource Plan for free-tier"
   template:
-    apiVersion: "serving.kserve.io/v1beta1"
+    apiVersion: serving.kserve.io/v1beta1
     metadata:
-      annotations: |
-        autoscaling.knative.dev/metric: concurrency
-        autoscaling.knative.dev/target: 1
-        autoscaling.knative.dev/targetBurstCapacity: 0
-      labels: |
-        ai.sap.com/resourcePlan: "{{inputs.parameters.resourcePlan}}" 
-    spec: |
+      annotations:
+        autoscaling.knative.dev/target: "1"
+      labels:
+        ai.sap.com/resourcePlan: infer.l  # Large plan for GPU
+    spec:
       predictor:
-        minReplicas: 1
-        maxReplicas: 1
+        imagePullSecrets:
+          - name: default  # Use your Docker registry secret name
         containers:
-        - name: kserve-container
-          image: index.docker.io/ravivarmaiai/falcon-rw1b:latest
-          ports:
-            - containerPort: 8080
-              protocol: TCP
-          command: ["/bin/sh", "-c"]
-          args:
-            - >
-              set -e && echo "-------------Starting transformer Server--------------" 
-              && uvicorn server:app --host 0.0.0.0 --port 8080
-          env:
-            - name: MODEL_NAME
-              value: "{{inputs.parameters.modelName}}"
-            - name: HF_HOME
-              value: "/tmp/hf-cache"
-              
+          - name: kserve-container
+            image: index.docker.io/ravivarmaiai/deepseek-coder:1.0
+            ports:
+              - containerPort: 8080
