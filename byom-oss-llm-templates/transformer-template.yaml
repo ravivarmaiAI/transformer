@@ -3,13 +3,13 @@ kind: ServingTemplate
 metadata:
   name: deepseek-coder-template
   annotations:
-    scenarios.ai.sap.com/name: deepseek-coder
-    scenarios.ai.sap.com/description: DeepSeek Coder 1.3B Instruct Model
-    executables.ai.sap.com/name: deepseek-coder
-    executables.ai.sap.com/description: DeepSeek model FastAPI service
+    scenarios.ai.sap.com/description: "Run a custom transformer server on SAP AI Core"
+    scenarios.ai.sap.com/name: "deepseek-coder"
+    executables.ai.sap.com/description: "Run a custom transformer server on SAP AI Core"
+    executables.ai.sap.com/name: "deepseek-coder"
   labels:
-    scenarios.ai.sap.com/id: deepseek-coder
-    ai.sap.com/version: "2.1"
+    scenarios.ai.sap.com/id: "deepseek-coder"
+    ai.sap.com/version: "2.1.1"
 spec:
   inputs:
     parameters:
@@ -29,20 +29,25 @@ spec:
         autoscaling.knative.dev/target: 1
         autoscaling.knative.dev/targetBurstCapacity: 0
       labels: |
-        ai.sap.com/resourcePlan: "{{inputs.parameters.resourcePlan}}" U
-    spec:
+        ai.sap.com/resourcePlan: "{{inputs.parameters.resourcePlan}}" 
+    spec: |
       predictor:
-        imagePullSecrets:
-          - name: default  # Use your Docker registry secret name
+        minReplicas: 1
+        maxReplicas: 1
         containers:
-          - name: kserve-container
-            image: index.docker.io/ravivarmaiai/deepseek-coder:1.0
-            ports:
-              - containerPort: 8080
-                protocol: TCP
+        - name: kserve-container
+          image: index.docker.io/ravivarmaiai/deepseek-coder:1.0
+          ports:
+            - containerPort: 8080
+              protocol: TCP
           command: ["/bin/sh", "-c"]
+          args:
+            - >
+              set -e && echo "-------------Starting transformer Server--------------" 
+              && uvicorn server:app --host 0.0.0.0 --port 8080
           env:
             - name: MODEL_NAME
               value: "{{inputs.parameters.modelName}}"
             - name: HF_HOME
               value: "/tmp/hf-cache"
+              
