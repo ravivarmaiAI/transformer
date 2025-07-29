@@ -9,7 +9,7 @@ metadata:
     executables.ai.sap.com/name: "transformer"
   labels:
     scenarios.ai.sap.com/id: "transformer"
-    ai.sap.com/version: "1.1.7"
+    ai.sap.com/version: "1.1.8"
 spec:
   inputs:
     parameters:
