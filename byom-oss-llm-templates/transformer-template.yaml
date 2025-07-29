@@ -39,3 +39,10 @@ spec:
             image: index.docker.io/ravivarmaiai/deepseek-coder:1.0
             ports:
               - containerPort: 8080
+                protocol: TCP
+          command: ["/bin/sh", "-c"]
+          env:
+            - name: MODEL_NAME
+              value: "{{inputs.parameters.modelName}}"
+            - name: HF_HOME
+              value: "/tmp/hf-cache"
