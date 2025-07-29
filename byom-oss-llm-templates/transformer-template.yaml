@@ -19,7 +19,7 @@ spec:
         description: "Model Name to be used in SAP Generative AI Hub SDK. Ensure an identical value as alias parameter"
       - name: resourcePlan
         type: string
-        default: "starter" 
+        default: "infer.s" 
         description: "Resource Plan for free-tier"
   template:
     apiVersion: "serving.kserve.io/v1beta1"
